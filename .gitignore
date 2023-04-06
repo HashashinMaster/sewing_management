@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js
-
 # testing
 /coverage
 
@@ -30,3 +29,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+# pocketbase
+pocketbase.exe
+pb_data/data.db-shm
+pb_data/data.db-wal
+pb_data/logs.db-shm
+pb_data/logs.db-wal
