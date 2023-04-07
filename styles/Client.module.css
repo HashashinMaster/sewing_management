@@ -1,0 +1,10 @@
+#add {
+  display: flex;
+  justify-content: flex-end;
+}
+#add_btn {
+  margin-right: 1rem !important;
+}
+#alert_margin {
+  margin-top: 4rem !important;
+}
