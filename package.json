@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.3",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.4",
     "clsx": "^1.2.1",
