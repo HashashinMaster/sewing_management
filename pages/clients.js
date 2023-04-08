@@ -5,23 +5,15 @@ import Client from "@/components/client/Client";
 import styles from "@/styles/Client.module.css";
 import Head from "next/head";
 import Form from "@/components/client/Form";
-export default function Clients(params) {
-  const [clients, setClients] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const pb = new PocketBase("http://127.0.0.1:8090");
-      const clients = await pb.collection("clients").getFullList();
-      if (clients.length < 1) setClients("No Clients");
-      else setClients(clients);
-    })();
-  }, []);
+export default function Clients({ clients }) {
+  console.log(clients);
   return (
     <>
       <Head>
         <title> GUEDIRA | Clients</title>
       </Head>
       <Layout page="Clients">
-        {clients === "No Clients" && (
+        {clients.length < 1 && (
           <div>
             <div
               className="alert alert-info"
@@ -43,8 +35,19 @@ export default function Clients(params) {
           </div>
         )}
         <Form />
-        {Array.isArray(clients) && clients.map((client) => <Client />)}
+        {clients.length > 1 && clients.map((client) => <Client />)}
       </Layout>
     </>
   );
+}
+export async function getServerSideProps() {
+  const res = await fetch(
+    "http://127.0.0.1:8090/api/collections/clients/records"
+  );
+  const data = await res.json();
+  return {
+    props: {
+      clients: data.items,
+    },
+  };
 }
