@@ -76,7 +76,6 @@ export default function ModalBody() {
   };
   useEffect(() => {
     if (isClicked) validation();
-    console.log("getting called");
   }, [check]);
   return (
     <div className="modal-body">

@@ -39,7 +39,31 @@ export default function Clients({ clients }) {
           </div>
         )}
         <Form />
-        {clients.length > 0 && clients.map((client) => <Client />)}
+
+        {clients.length > 0 && (
+          <div className="table-responsive">
+            <table class="table mt-3 table-hover">
+              <thead>
+                <tr>
+                  <th>Avatar</th>
+                  <th scope="col">Nom</th>
+                  <th scope="col">Prenom</th>
+                  <th scope="col">Telephone</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Sexe</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Profession</th>
+                  <th scope="col">Adresse</th>
+                </tr>
+              </thead>
+              <tbody>
+                {clients.map((client) => (
+                  <Client {...client} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </Layout>
     </>
   );
