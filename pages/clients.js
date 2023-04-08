@@ -39,7 +39,7 @@ export default function Clients({ clients }) {
           </div>
         )}
         <Form />
-        {clients.length > 1 && clients.map((client) => <Client />)}
+        {clients.length > 0 && clients.map((client) => <Client />)}
       </Layout>
     </>
   );
