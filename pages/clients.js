@@ -16,21 +16,25 @@ export default function Clients({ clients }) {
         {clients.length < 1 && (
           <div>
             <div
-              className="alert alert-info"
+              className="alert alert-info alert-dismissible fade show"
               id={styles.alert_margin}
               role="alert"
             >
-              <p>
-                vous n'avez pas encore ajouté de clients.{" "}
-                <a
-                  className="alert-link"
-                  style={{ cursor: "pointer" }}
-                  data-bs-toggle="modal"
-                  data-bs-target="#add_client"
-                >
-                  Cliquez ici pour ajouter un client
-                </a>
-              </p>
+              vous n'avez pas encore ajouté de clients.{" "}
+              <a
+                className="alert-link"
+                style={{ cursor: "pointer" }}
+                data-bs-toggle="modal"
+                data-bs-target="#add_client"
+              >
+                Cliquez ici pour ajouter un client
+              </a>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
             </div>
           </div>
         )}
