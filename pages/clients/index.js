@@ -21,7 +21,7 @@ export default function Clients({ clients, totalPages, page, search }) {
             key={counter}
             class={clsx("page-link", page === counter && "active")}
             href={`/clients?page=${counter}${clsx(
-              search && `&&search=${search}`
+              search && `&search=${search}`
             )}`}
           >
             {counter}
@@ -31,7 +31,7 @@ export default function Clients({ clients, totalPages, page, search }) {
       counter++;
     }
     setPagesBtns(btns);
-  }, [clients]);
+  }, [clients, page]);
   return (
     <>
       <Head>
@@ -111,6 +111,25 @@ export default function Clients({ clients, totalPages, page, search }) {
   );
 }
 export async function getServerSideProps(context) {
+  if (context.query.search && context.query.page) {
+    console.log("im here");
+    let { search } = context.query;
+    if (search[0] === " ") search = "%2B" + search.slice(1);
+    console.log(search);
+    const res = await fetch(
+      `http://127.0.0.1:8090/api/collections/clients/records?page=${context.query.page}&filter=(first_name="${search}" || last_name="${search}"  || profession="${search}" || adresse="${search}" || age="${search}" || email="${search}" || tel="${search}" || sexe="${search}")`
+    );
+    const { items, totalPages, page } = await res.json();
+    console.log(page);
+    return {
+      props: {
+        clients: items,
+        totalPages,
+        page,
+        search,
+      },
+    };
+  }
   if (context.query.page) {
     const res = await fetch(
       `http://127.0.0.1:8090/api/collections/clients/records?page=${context.query.page}`
@@ -142,6 +161,7 @@ export async function getServerSideProps(context) {
       },
     };
   }
+
   const res = await fetch(
     "http://127.0.0.1:8090/api/collections/clients/records"
   );
