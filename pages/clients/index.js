@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import Search from "@/components/Search";
-export default function Clients({ clients, totalPages, page, search }) {
+export default function Clients({ clients, totalPages, page, search, err }) {
   const [pagesBtns, setPagesBtns] = useState([]);
   useEffect(() => {
     console.log("c");
@@ -16,10 +16,10 @@ export default function Clients({ clients, totalPages, page, search }) {
     const btns = [];
     while (counter <= totalPages) {
       btns.push(
-        <li class="page-item" key={counter}>
+        <li className="page-item" key={counter}>
           <Link
             key={counter}
-            class={clsx("page-link", page === counter && "active")}
+            className={clsx("page-link", page === counter && "active")}
             href={`/clients?page=${counter}${clsx(
               search && `&search=${search}`
             )}`}
@@ -71,6 +71,11 @@ export default function Clients({ clients, totalPages, page, search }) {
               className="table-responsive"
               style={{ width: "80%", margin: "auto" }}
             >
+              {err && (
+                <div className="alert alert-danger" role="alert">
+                  {err}
+                </div>
+              )}
               <Search />
               <table className="table mt-3 table-hover table-bordered">
                 <thead>
@@ -90,15 +95,15 @@ export default function Clients({ clients, totalPages, page, search }) {
               </table>
             </div>
             <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-center">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
+              <ul className="pagination justify-content-center">
+                <li className="page-item">
+                  <a className="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
                 {pagesBtns}
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
+                <li className="page-item">
+                  <a className="page-link" href="#" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                   </a>
                 </li>
@@ -152,14 +157,29 @@ export async function getServerSideProps(context) {
       `http://127.0.0.1:8090/api/collections/clients/records?filter=(first_name="${search}" || last_name="${search}"  || profession="${search}" || adresse="${search}" || age="${search}" || email="${search}" || tel="${search}" || sexe="${search}")`
     );
     const { items, totalPages, page } = await res.json();
-    return {
-      props: {
-        clients: items,
-        totalPages,
-        page,
-        search,
-      },
-    };
+    if (items.length > 0)
+      return {
+        props: {
+          clients: items,
+          totalPages,
+          page,
+          search,
+        },
+      };
+    else {
+      const res = await fetch(
+        "http://127.0.0.1:8090/api/collections/clients/records"
+      );
+      const { items, totalPages, page } = await res.json();
+      return {
+        props: {
+          clients: items,
+          totalPages,
+          page,
+          err: "there is no user with this data you provided",
+        },
+      };
+    }
   }
 
   const res = await fetch(
