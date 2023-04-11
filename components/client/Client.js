@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 export default function Client({
   id,
   avatar,
@@ -6,13 +7,15 @@ export default function Client({
   last_name,
   tel,
   email,
-  sexe,
-  age,
-  profession,
-  adresse,
 }) {
+  const { push } = useRouter();
   return (
-    <tr style={{ cursor: "pointer" }}>
+    <tr
+      style={{ cursor: "pointer" }}
+      onClick={() => {
+        push(`clients/${id}`);
+      }}
+    >
       <td scope="row">
         {avatar ? (
           <Image
@@ -20,7 +23,8 @@ export default function Client({
             width={40}
             height={40}
             className="rounded-circle"
-            style={{ "object-fit": "cover" }}
+            alt="couldn't load Image"
+            style={{ objectFit: "cover" }}
           />
         ) : (
           "N/A"
@@ -30,10 +34,6 @@ export default function Client({
       <td>{last_name}</td>
       <td>{tel}</td>
       <td>{email}</td>
-      <td>{sexe}</td>
-      <td>{age ? age : "N/A"}</td>
-      <td>{profession ? profession : "N/A"}</td>
-      <td>{adresse ? adresse : "N/A"}</td>
     </tr>
   );
 }

@@ -15,7 +15,7 @@ export default function Modal() {
     <div
       className="modal fade"
       id="add_client"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="add_client_label"
       aria-hidden="true"
     >

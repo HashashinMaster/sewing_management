@@ -69,7 +69,7 @@ export default function ModalBody() {
       formData.append("adresse", adresse.value);
       formData.append("age", age.value);
       formData.append("profession", profession.value);
-      formData.append("avatar", avatar.files[0]);
+      if (avatar.files[0]) formData.append("avatar", avatar.files[0]);
       await pb.collection("clients").create(formData);
       refresh();
     }
