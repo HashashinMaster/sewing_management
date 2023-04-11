@@ -7,10 +7,11 @@ import Form from "@/components/client/Form";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
-export default function Clients({ clients, totalPages, page, totalItems }) {
+import Search from "@/components/Search";
+export default function Clients({ clients, totalPages, page, search }) {
   const [pagesBtns, setPagesBtns] = useState([]);
-  console.log(totalItems);
   useEffect(() => {
+    console.log("c");
     let counter = 1;
     const btns = [];
     while (counter <= totalPages) {
@@ -19,7 +20,9 @@ export default function Clients({ clients, totalPages, page, totalItems }) {
           <Link
             key={counter}
             class={clsx("page-link", page === counter && "active")}
-            href={`/clients?page=${counter}`}
+            href={`/clients?page=${counter}${clsx(
+              search && `&&search=${search}`
+            )}`}
           >
             {counter}
           </Link>
@@ -28,7 +31,7 @@ export default function Clients({ clients, totalPages, page, totalItems }) {
       counter++;
     }
     setPagesBtns(btns);
-  }, [page]);
+  }, [clients]);
   return (
     <>
       <Head>
@@ -68,6 +71,7 @@ export default function Clients({ clients, totalPages, page, totalItems }) {
               className="table-responsive"
               style={{ width: "80%", margin: "auto" }}
             >
+              <Search />
               <table className="table mt-3 table-hover table-bordered">
                 <thead>
                   <tr>
@@ -122,6 +126,21 @@ export async function getServerSideProps(context) {
     };
   }
   if (context.query.search) {
+    let { search } = context.query;
+    if (search[0] === " ") search = "%2B" + search.slice(1);
+    console.log(search);
+    const res = await fetch(
+      `http://127.0.0.1:8090/api/collections/clients/records?filter=(first_name="${search}" || last_name="${search}"  || profession="${search}" || adresse="${search}" || age="${search}" || email="${search}" || tel="${search}" || sexe="${search}")`
+    );
+    const { items, totalPages, page } = await res.json();
+    return {
+      props: {
+        clients: items,
+        totalPages,
+        page,
+        search,
+      },
+    };
   }
   const res = await fetch(
     "http://127.0.0.1:8090/api/collections/clients/records"
