@@ -1,6 +1,10 @@
 import Link from "next/link";
 import clsx from "clsx";
+import { useEffect } from "react";
 export default function Layout({ children, page }) {
+  useEffect(() => {
+    document.body.style.overflow = "";
+  }, []);
   return (
     <>
       <nav className="navbar bg-body-tertiary fixed-top">

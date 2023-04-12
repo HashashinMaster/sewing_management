@@ -1,6 +1,11 @@
+import DeleteModal from "@/components/client/Modal/DeleteModal";
+import Modal from "@/components/client/Modal/Modal";
 import Layout from "@/components/layout";
+import { setEditing, toggleEdit } from "@/redux/form";
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 export default function client({
   id,
   first_name,
@@ -13,6 +18,7 @@ export default function client({
   profession,
   adresse,
 }) {
+  const dispatch = useDispatch();
   return (
     <>
       <Head>
@@ -31,13 +37,44 @@ export default function client({
                     alt="Profile Picture"
                     className="rounded-circle mb-3"
                     style={{ "object-fit": "cover" }}
-                  />{" "}
+                  />
                   <h5 className="card-title">
                     {first_name} {last_name}
                   </h5>
                   <p className="card-text">{profession}</p>
-                  <button className="btn btn-primary me-2">Edit</button>
-                  <button className="btn btn-danger">Delete</button>
+                  <button
+                    className="btn btn-primary me-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#add_client"
+                    onClick={() => {
+                      dispatch(setEditing());
+                      dispatch(toggleEdit());
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#delete_client"
+                  >
+                    Delete
+                  </button>
+                  <Modal
+                    data={{
+                      id,
+                      first_name,
+                      last_name,
+                      tel,
+                      email,
+                      sexe,
+                      age,
+                      avatar,
+                      profession,
+                      adresse,
+                    }}
+                  />
+                  <DeleteModal id={id} />
                 </div>
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item">
