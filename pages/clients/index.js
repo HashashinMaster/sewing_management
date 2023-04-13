@@ -1,5 +1,4 @@
 import Layout from "@/components/layout";
-import PocketBase from "pocketbase";
 import Client from "@/components/client/Client";
 import styles from "@/styles/Client.module.css";
 import Head from "next/head";

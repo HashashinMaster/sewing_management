@@ -1,0 +1,15 @@
+.box_empty {
+  color: #fece10;
+  font-size: 100px;
+}
+.stock_empty {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.add_empty {
+  cursor: pointer;
+}

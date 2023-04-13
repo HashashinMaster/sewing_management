@@ -80,6 +80,14 @@ export default function Layout({ children, page }) {
                     Ordres
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link
+                    className={clsx("nav-link", page === "Models" && " active")}
+                    href="/models"
+                  >
+                    Models
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
