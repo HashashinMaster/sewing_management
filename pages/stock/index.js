@@ -6,6 +6,7 @@ import Popup from "devextreme-react/popup";
 import { useState } from "react";
 import Form from "@/components/stock/Form";
 import Add from "@/components/stock/Add";
+import SupplyCard from "./SupplyCard";
 
 export default function stock({ stockItems }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
@@ -33,7 +34,7 @@ export default function stock({ stockItems }) {
             </div>
           </main>
         ) : (
-          <Add />
+          <Add onClick={togglePopup} />
         )}
         <Popup
           visible={isPopupVisible}
@@ -44,6 +45,13 @@ export default function stock({ stockItems }) {
           dragEnabled={false}
           onHiding={togglePopup}
         />
+        {stockItems.totalItems > 0 && (
+          <div className="d-flex flex-wrap p-1">
+            {stockItems.items.map((supply, key) => (
+              <SupplyCard {...supply} key={key} />
+            ))}
+          </div>
+        )}
       </Layout>
     </>
   );
