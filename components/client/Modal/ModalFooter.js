@@ -1,7 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { clicked, toggleCheck } from "@/redux/form";
-import { useEffect } from "react";
-import PocketBase from "pocketbase";
 
 export default function ModalFooter() {
   const dispatch = useDispatch();

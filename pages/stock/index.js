@@ -5,6 +5,7 @@ import styles from "@/styles/Stock.module.css";
 import Popup from "devextreme-react/popup";
 import { useState } from "react";
 import Form from "@/components/stock/Form";
+import Add from "@/components/stock/Add";
 
 export default function stock({ stockItems }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
@@ -18,7 +19,7 @@ export default function stock({ stockItems }) {
         <title>GUEDIRA | STOCK</title>
       </Head>
       <Layout>
-        {stockItems.totalItems < 1 && (
+        {stockItems.totalItems < 1 ? (
           <main className={styles.stock_empty}>
             <i class={`bi bi-box-fill ${styles.box_empty}`}></i>
             <div class="alert alert-warning" role="alert">
@@ -31,6 +32,8 @@ export default function stock({ stockItems }) {
               </a>
             </div>
           </main>
+        ) : (
+          <Add />
         )}
         <Popup
           visible={isPopupVisible}
@@ -49,7 +52,6 @@ export async function getServerSideProps() {
   const data = await (
     await fetch("http://127.0.0.1:8090/api/collections/stock/records?page=1")
   ).json();
-  console.log(data);
   return {
     props: {
       stockItems: data,
