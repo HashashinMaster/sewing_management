@@ -51,13 +51,14 @@ export default function client({
                       dispatch(toggleEdit());
                     }}
                   >
-                    Edit
+                    <i className="bi bi-pencil"></i> Edit
                   </button>
                   <button
                     className="btn btn-danger"
                     data-bs-toggle="modal"
                     data-bs-target="#delete_client"
                   >
+                    <i className="bi bi-trash"></i>
                     Delete
                   </button>
                   <Modal

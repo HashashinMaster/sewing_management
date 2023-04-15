@@ -6,8 +6,7 @@ import Popup from "devextreme-react/popup";
 import { useState } from "react";
 import Form from "@/components/stock/Form";
 import Add from "@/components/stock/Add";
-import SupplyCard from "./SupplyCard";
-
+import SupplyCard from "@/components/stock/SupplyCard";
 export default function stock({ stockItems }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
 
@@ -24,7 +23,7 @@ export default function stock({ stockItems }) {
           <main className={styles.stock_empty}>
             <i class={`bi bi-box-fill ${styles.box_empty}`}></i>
             <div class="alert alert-warning" role="alert">
-              Stock is empty.{" "}
+              Stock is empty.
               <a
                 className={`alert-link ${styles.add_empty}`}
                 onClick={togglePopup}
@@ -46,7 +45,16 @@ export default function stock({ stockItems }) {
           onHiding={togglePopup}
         />
         {stockItems.totalItems > 0 && (
-          <div className="d-flex flex-wrap p-1">
+          <div
+            className="mt-3 d-flex flex-wrap mx-auto card-deck "
+            style={{
+              height: "37rem",
+              minHeight: "37rem",
+              width: "100%",
+              padding: "0  0 0 2rem",
+              gap: "1rem",
+            }}
+          >
             {stockItems.items.map((supply, key) => (
               <SupplyCard {...supply} key={key} />
             ))}

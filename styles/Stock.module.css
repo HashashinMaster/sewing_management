@@ -13,3 +13,9 @@
 .add_empty {
   cursor: pointer;
 }
+.desc {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 2rem;
+  white-space: nowrap;
+}
