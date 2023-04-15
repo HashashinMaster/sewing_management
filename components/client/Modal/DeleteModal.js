@@ -1,27 +1,29 @@
 import { useRouter } from "next/router";
 import PocketBase from "pocketbase";
-export default function DeleteModal({ id }) {
+export default function DeleteModal({ id, type }) {
   const { push } = useRouter();
   const deleteUser = async () => {
     const pb = new PocketBase("http://127.0.0.1:8090");
-    await pb.collection("clients").delete(id);
+    //clients
+    await pb.collection(type).delete(id);
     setTimeout(() => {
-      push("/clients");
+      push(`/${type}`);
     }, 500);
   };
   return (
     <div
       className="modal fade"
       tabindex="-1"
-      id="delete_client"
-      aria-labelledby="delete_client_label"
+      id="delete"
+      aria-labelledby="delete_label"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">
-              Are you sure you want to delete this user?
+              Are you sure you want to delete this{" "}
+              {type === "clients" ? "client" : "supply"}?
             </h5>
             <button
               type="button"
@@ -32,7 +34,8 @@ export default function DeleteModal({ id }) {
           </div>
           <div class="modal-body">
             <p style={{ textAlign: "left" }}>
-              If you click delete. This user will no longer exists{" "}
+              If you click delete. This{" "}
+              {type === "clients" ? "client" : "supply"} will no longer exists{" "}
             </p>
           </div>
           <div class="modal-footer">

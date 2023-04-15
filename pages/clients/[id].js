@@ -56,7 +56,7 @@ export default function client({
                   <button
                     className="btn btn-danger"
                     data-bs-toggle="modal"
-                    data-bs-target="#delete_client"
+                    data-bs-target="#delete"
                   >
                     <i className="bi bi-trash"></i>
                     Delete
@@ -75,7 +75,7 @@ export default function client({
                       adresse,
                     }}
                   />
-                  <DeleteModal id={id} />
+                  <DeleteModal id={id} type={"clients"} />
                 </div>
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item">
