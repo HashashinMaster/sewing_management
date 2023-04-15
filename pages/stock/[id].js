@@ -2,6 +2,12 @@ import Layout from "@/components/layout";
 import Image from "next/image";
 import clsx from "clsx";
 import Head from "next/head";
+import { useState } from "react";
+import { Popup } from "devextreme-react";
+import Form from "@/components/stock/Form";
+import { setEditing, setPayload } from "@/redux/stock";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 export default function supply({
   id,
   supply_name,
@@ -12,6 +18,40 @@ export default function supply({
   picture,
   created,
 }) {
+  const [isPopupVisible, setPopupVisibility] = useState(false);
+  const dispatch = useDispatch();
+  const { isEditing } = useSelector((state) => state.stock);
+  useEffect(() => {
+    if (!isEditing) {
+      dispatch(setEditing(true));
+      dispatch(
+        setPayload({
+          id,
+          supply_name,
+          supply_type,
+          quantity,
+          price_per_unit,
+          description,
+        })
+      );
+    }
+  });
+  const togglePopup = () => {
+    setPopupVisibility(!isPopupVisible);
+    if (!isEditing) {
+      dispatch(setEditing(true));
+      dispatch(
+        setPayload({
+          id,
+          supply_name,
+          supply_type,
+          quantity,
+          price_per_unit,
+          description,
+        })
+      );
+    }
+  };
   return (
     <>
       <Head>
@@ -45,8 +85,9 @@ export default function supply({
               <h2>
                 {supply_type} - {supply_name}
               </h2>
-              <p style={{ overflowWrap: "break-word" }}>
-                Description: {description}
+              <p style={{ overflowWrap: "anywhere", width: "100%" }}>
+                Description:{" "}
+                {description ? description : "No description Given."}
               </p>
               <p>
                 <strong>Created:</strong> {created.slice(0, 19)}
@@ -68,7 +109,7 @@ export default function supply({
                   currency: "MAD",
                 }).format(price_per_unit * quantity)}
               </p>
-              <a className="btn btn-primary me-2">
+              <a className="btn btn-primary me-2" onClick={togglePopup}>
                 <i className="bi bi-pencil"></i> Edit
               </a>
               <a className="btn btn-danger">
@@ -77,6 +118,15 @@ export default function supply({
             </div>
           </div>
         </div>
+        <Popup
+          visible={isPopupVisible}
+          title="ADD Supply"
+          hideOnOutsideClick={true}
+          hideOnParentScroll={true}
+          contentComponent={Form}
+          dragEnabled={false}
+          onHiding={togglePopup}
+        />
       </Layout>
     </>
   );

@@ -18,8 +18,8 @@ const formSlice = createSlice({
     toggleEdit: (state) => {
       state.edit = !state.edit;
     },
-    setEditing: (state) => {
-      state.isEditing = true;
+    setEditing: (state, action) => {
+      state.isEditing = action.payload;
     },
   },
 });

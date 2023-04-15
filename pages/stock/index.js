@@ -1,17 +1,24 @@
 import Layout from "@/components/layout";
 import Head from "next/head";
-import "devextreme/dist/css/dx.light.css";
 import styles from "@/styles/Stock.module.css";
 import Popup from "devextreme-react/popup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "@/components/stock/Form";
 import Add from "@/components/stock/Add";
 import SupplyCard from "@/components/stock/SupplyCard";
+import { useDispatch, useSelector } from "react-redux";
+import { setEditing } from "@/redux/stock";
 export default function stock({ stockItems }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
-
+  const dispatch = useDispatch();
+  const { isEditing } = useSelector((state) => state.stock);
+  useEffect(() => {
+    if (isEditing) dispatch(setEditing(false));
+    console.log("ana f useEffect");
+  });
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
+    if (isEditing) dispatch(setEditing(false));
   };
   return (
     <>

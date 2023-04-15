@@ -1,9 +1,27 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ScrollView from "devextreme-react/scroll-view";
 import PocketBase from "pocketbase";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 export default function Form() {
   const payload = useRef({});
+  const { isEditing } = useSelector((state) => state.stock);
+  const {
+    id,
+    supply_name,
+    supply_type,
+    quantity,
+    price_per_unit,
+    description,
+  } = useSelector((state) => state.stock.payload);
+  console.log(isEditing, {
+    id,
+    supply_name,
+    supply_type,
+    quantity,
+    price_per_unit,
+    description,
+  });
   const { refresh } = useRouter();
   const validation = async () => {
     let allGood = true;
@@ -58,7 +76,9 @@ export default function Form() {
     formData.append("price_per_unit", price.value);
     formData.append("description", description.value);
     if (picture.files[0]) formData.append("picture", picture.files[0]);
-    await pb.collection("stock").create(formData);
+    if (!isEditing) await pb.collection("stock").create(formData);
+    else await pb.collection("stock").update(id, formData);
+
     refresh();
   };
   return (
@@ -68,18 +88,22 @@ export default function Form() {
         <input
           ref={(el) => (payload.current.supplyName = el)}
           type="text"
+          defaultValue={isEditing ? supply_name : ""}
           className="form-control"
           placeholder="eg. T-shirt"
         />
         <span className="input-group-text">Supply Type*</span>
         <select
           className="form-select"
+          defaultValue={isEditing ? supply_type : "select"}
           ref={(el) => (payload.current.supplyType = el)}
           aria-label="Default select example"
         >
-          <option value="select" selected disabled>
-            Select a Type
-          </option>
+          {!isEditing && (
+            <option value="select" selected disabled>
+              Select a Type
+            </option>
+          )}
           <option value="Product">Product</option>
           <option value="Ressource">Ressource</option>
         </select>
@@ -89,6 +113,7 @@ export default function Form() {
         <input
           ref={(el) => (payload.current.quantity = el)}
           type="number"
+          defaultValue={isEditing ? quantity : ""}
           placeholder="eg. 100"
           className="form-control"
         />
@@ -96,6 +121,7 @@ export default function Form() {
         <input
           ref={(el) => (payload.current.price = el)}
           type="number"
+          defaultValue={isEditing ? price_per_unit : ""}
           placeholder="eg. 500"
           className="form-control"
         />
@@ -105,6 +131,7 @@ export default function Form() {
           className="form-control"
           placeholder="Description"
           rows={10}
+          defaultValue={isEditing ? description : ""}
           ref={(el) => (payload.current.description = el)}
         ></textarea>
       </div>

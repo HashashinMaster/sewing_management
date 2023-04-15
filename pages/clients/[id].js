@@ -5,7 +5,7 @@ import { setEditing, toggleEdit } from "@/redux/form";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 export default function client({
   id,
   first_name,
@@ -47,7 +47,7 @@ export default function client({
                     data-bs-toggle="modal"
                     data-bs-target="#add_client"
                     onClick={() => {
-                      dispatch(setEditing());
+                      dispatch(setEditing(true));
                       dispatch(toggleEdit());
                     }}
                   >
