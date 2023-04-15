@@ -33,7 +33,11 @@ export default function client({
                   <Image
                     width={200}
                     height={200}
-                    src={`http://127.0.0.1:8090/api/files/clients/${id}/${avatar}`}
+                    src={
+                      avatar
+                        ? `http://127.0.0.1:8090/api/files/clients/${id}/${avatar}`
+                        : "/noavatar.svg"
+                    }
                     alt="Profile Picture"
                     className="rounded-circle mb-3"
                     style={{ "object-fit": "cover" }}

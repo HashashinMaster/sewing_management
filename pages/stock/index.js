@@ -8,6 +8,7 @@ import Add from "@/components/stock/Add";
 import SupplyCard from "@/components/stock/SupplyCard";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditing } from "@/redux/stock";
+import Search from "@/components/Search";
 export default function stock({ stockItems }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
   const dispatch = useDispatch();
@@ -51,6 +52,9 @@ export default function stock({ stockItems }) {
           dragEnabled={false}
           onHiding={togglePopup}
         />
+        <div className="my-3" style={{ padding: "1rem" }}>
+          <Search type={"stock"} />
+        </div>
         {stockItems.totalItems > 0 && (
           <div
             className="mt-3 d-flex flex-wrap mx-auto card-deck "

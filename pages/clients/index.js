@@ -75,7 +75,7 @@ export default function Clients({ clients, totalPages, page, search, err }) {
                   {err}
                 </div>
               )}
-              <Search />
+              <Search type={"clients"} />
               <table className="table mt-3 table-hover table-bordered">
                 <thead>
                   <tr>

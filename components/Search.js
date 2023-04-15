@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useRef } from "react";
-
-export default function Search(params) {
+import clsx from "clsx";
+export default function Search({ type }) {
   const searchInput = useRef();
   const { push } = useRouter();
   return (
@@ -10,7 +10,11 @@ export default function Search(params) {
         ref={searchInput}
         className="form-control me-2"
         type="search"
-        placeholder="Search avec le nom,prenom,adresse ou email..."
+        placeholder={clsx({
+          ["Search avec le nom,prenom,adresse ou email..."]: type === "clients",
+          ["Search avec le Supply Type,Supply Name,Quantity..."]:
+            type === "stock",
+        })}
         aria-label="Search"
       />
       <button
@@ -18,8 +22,8 @@ export default function Search(params) {
         type="submit"
         onClick={() => {
           if (searchInput.current.value.length > 0)
-            push(`/clients?search=${searchInput.current.value}`);
-          else push("/clients");
+            push(`/${type}?search=${searchInput.current.value}`);
+          else push(`/${type}`);
         }}
       >
         Search
