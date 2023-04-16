@@ -9,7 +9,7 @@ export default function Add({ onClick }) {
         id={styles.add_btn}
         className="btn btn-success"
       >
-        <i class={`bi bi-box-fill me-2`}></i>
+        <i className={`bi bi-box-fill me-2`}></i>
         Ajouter
       </button>
     </div>
