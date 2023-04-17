@@ -137,10 +137,6 @@ export async function getServerSideProps(context) {
         `http://127.0.0.1:8090/api/collections/stock/records?page=${context.query.page}&filter=(supply_name~"${search}" || supply_type~"${search}"  || quantity~"${search}" || price_per_unit~"${search}" || description~"${search}")`
       )
     ).json();
-    console.log(
-      `http://127.0.0.1:8090/api/collections/stock/records?page=${context.query.page}&filter=(supply_name~"${search}" || supply_type~"${search}"  || quantity~"${search}" || price_per_unit~"${search}" || description~"${search}"`
-    );
-    console.log(data);
     return {
       props: {
         stockItems: data,
