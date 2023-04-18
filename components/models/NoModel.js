@@ -1,4 +1,4 @@
-export default function NoModel() {
+export default function NoModel({ onClickLink }) {
   return (
     <div
       className="w-100 d-flex justify-content-center align-items-center"
@@ -15,7 +15,11 @@ export default function NoModel() {
         />
         <div class="alert alert-info" role="alert">
           You have no Models.{" "}
-          <a style={{ cursor: "pointer" }} className={`alert-link`}>
+          <a
+            style={{ cursor: "pointer" }}
+            onClick={onClickLink}
+            className={`alert-link`}
+          >
             Add one
           </a>
         </div>

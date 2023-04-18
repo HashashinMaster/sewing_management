@@ -81,16 +81,17 @@ export default function stock({ stockItems, search, err }) {
           dragEnabled={false}
           onHiding={togglePopup}
         />
-        <div className="my-3" style={{ padding: "1rem" }}>
-          {err && (
-            <div className="alert alert-danger" role="alert">
-              {err}
-            </div>
-          )}
-          <Search type={"stock"} />
-        </div>
+
         {stockItems.totalItems > 0 && (
           <>
+            <div className="my-3" style={{ padding: "1rem" }}>
+              {err && (
+                <div className="alert alert-danger" role="alert">
+                  {err}
+                </div>
+              )}
+              <Search type={"stock"} />
+            </div>
             <div
               className="mt-3 d-flex flex-wrap mx-auto card-deck "
               style={{

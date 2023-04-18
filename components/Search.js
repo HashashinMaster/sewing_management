@@ -14,6 +14,7 @@ export default function Search({ type }) {
           ["Search avec le nom,prenom,adresse ou email..."]: type === "clients",
           ["Search avec le Supply Type,Supply Name,Quantity..."]:
             type === "stock",
+          ["Search avec le nom de Model"]: type === "models",
         })}
         aria-label="Search"
       />
