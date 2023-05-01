@@ -3,8 +3,16 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "devextreme/dist/css/dx.light.css";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
-
 import { useEffect } from "react";
+import NProgress from "nprogress";
+import Router from "next/router";
+import "@/styles/globals.css";
+
+Router.events.on("routeChangeStart", (url) => {
+  NProgress.start();
+});
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
 
 export default function App({ Component, pageProps }) {
   useEffect(() => {
