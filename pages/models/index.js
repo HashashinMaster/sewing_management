@@ -10,13 +10,37 @@ import Add from "@/components/models/Add";
 import EditModal from "@/components/models/EditModal";
 import { useDispatch } from "react-redux";
 import { setIsEditing } from "@/redux/model";
+import clsx from "clsx";
+import Link from "next/link";
 
-export default function index({ models, err }) {
+export default function index({ models, err, search }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setIsEditing(false));
   });
+  const [pagesBtns, setPagesBtns] = useState([]);
+  useEffect(() => {
+    let counter = 1;
+    const btns = [];
+    while (counter <= models.totalPages) {
+      btns.push(
+        <li className="page-item" key={counter}>
+          <Link
+            key={counter}
+            className={clsx("page-link", models.page === counter && "active")}
+            href={`/models?page=${counter}${clsx(
+              search && `&search=${search}`
+            )}`}
+          >
+            {counter}
+          </Link>
+        </li>
+      );
+      counter++;
+    }
+    setPagesBtns(btns);
+  }, [models.items, models.page]);
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
   };
@@ -61,6 +85,24 @@ export default function index({ models, err }) {
                 <ModelCard {...model} />
               ))}
             </div>
+            <nav
+              aria-label="Page navigation example"
+              style={{ display: "block" }}
+            >
+              <ul className="pagination justify-content-center">
+                <li className="page-item">
+                  <a className="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                {pagesBtns}
+                <li className="page-item">
+                  <a className="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </>
         )}
       </Layout>
@@ -69,6 +111,61 @@ export default function index({ models, err }) {
 }
 
 export async function getServerSideProps(context) {
+  if (context.query.search && context.query.page) {
+    let { search } = context.query;
+    if (search[0] === " ") search = "%2B" + search.slice(1);
+    const data = await (
+      await fetch(
+        `http://127.0.0.1:8090/api/collections/models/records?page=${context.query.page}&filter=(model_name~"${search}" || description~"${search}"  || created~"${search}")`
+      )
+    ).json();
+    return {
+      props: {
+        models: data,
+        search,
+      },
+    };
+  }
+  if (context.query.page) {
+    const data = await (
+      await fetch(
+        `http://127.0.0.1:8090/api/collections/models/records?page=${context.query.page}`
+      )
+    ).json();
+    return {
+      props: {
+        models: data,
+      },
+    };
+  }
+  if (context.query.search) {
+    let { search } = context.query;
+    if (search[0] === " ") search = "%2B" + search.slice(1);
+    const data = await (
+      await fetch(
+        `http://127.0.0.1:8090/api/collections/models/records?filter=(model_name~"${search}" || description~"${search}"  || created~"${search}")`
+      )
+    ).json();
+    console.log(data);
+    if (data.items.length > 0)
+      return {
+        props: {
+          models: data,
+          search,
+        },
+      };
+    else {
+      const data = await (
+        await fetch("http://127.0.0.1:8090/api/collections/models/records")
+      ).json();
+      return {
+        props: {
+          models: data,
+          err: "there is no model with this data you provided",
+        },
+      };
+    }
+  }
   const data = await (
     await fetch("http://127.0.0.1:8090/api/collections/models/records?page=1")
   ).json();

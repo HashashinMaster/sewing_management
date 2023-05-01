@@ -38,7 +38,6 @@ export default function stock({ stockItems, search, err }) {
         </li>
       );
       counter++;
-      console.log(btns);
     }
     setPagesBtns(btns);
   }, [stockItems.items, stockItems.page]);
