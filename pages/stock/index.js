@@ -44,7 +44,6 @@ export default function stock({ stockItems, search, err }) {
   }, [stockItems.items, stockItems.page]);
   useEffect(() => {
     if (isEditing) dispatch(setEditing(false));
-    console.log("ana f useEffect");
   });
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);

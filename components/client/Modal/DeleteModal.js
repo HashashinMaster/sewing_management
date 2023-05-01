@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useRouter } from "next/router";
 import PocketBase from "pocketbase";
 export default function DeleteModal({ id, type }) {
@@ -23,7 +24,12 @@ export default function DeleteModal({ id, type }) {
           <div class="modal-header">
             <h5 class="modal-title">
               Are you sure you want to delete this{" "}
-              {type === "clients" ? "client" : "supply"}?
+              {clsx({
+                client: type === "clients",
+                supply: type === "stock",
+                model: type === "models",
+              })}
+              ?
             </h5>
             <button
               type="button"

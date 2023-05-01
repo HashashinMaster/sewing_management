@@ -1,15 +1,22 @@
 import Layout from "@/components/layout";
 import NoModel from "@/components/models/NoModel";
 import Head from "next/head";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Popup } from "devextreme-react";
 import Form from "@/components/models/Form";
 import ModelCard from "@/components/models/ModelCard";
 import Search from "@/components/Search";
 import Add from "@/components/models/Add";
+import EditModal from "@/components/models/EditModal";
+import { useDispatch } from "react-redux";
+import { setIsEditing } from "@/redux/model";
+
 export default function index({ models, err }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setIsEditing(false));
+  });
   const togglePopup = () => {
     setPopupVisibility(!isPopupVisible);
   };
@@ -19,6 +26,7 @@ export default function index({ models, err }) {
         <title> GUEDIRA | Models</title>
       </Head>
       <Layout>
+        <EditModal />
         {models.totalItems < 1 && <NoModel onClickLink={togglePopup} />}
 
         <Popup
