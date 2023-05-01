@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import NProgress from "nprogress";
 import Router from "next/router";
 import "@/styles/globals.css";
+NProgress.configure({ showSpinner: false });
 
 Router.events.on("routeChangeStart", (url) => {
   NProgress.start();
