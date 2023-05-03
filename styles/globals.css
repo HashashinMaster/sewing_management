@@ -3,7 +3,7 @@
   pointer-events: none;
 }
 body {
-  padding: 0;
+  padding: 0 !important;
 }
 #nprogress .bar {
   background: #29d;
