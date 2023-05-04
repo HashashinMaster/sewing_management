@@ -75,9 +75,9 @@ export default function Layout({ children, page }) {
                 <li className="nav-item">
                   <Link
                     className={clsx("nav-link", page === "Ordres" && " active")}
-                    href="/ordres"
+                    href="/orders"
                   >
-                    Ordres
+                    Orders
                   </Link>
                 </li>
                 <li className="nav-item">
