@@ -6,6 +6,7 @@ export default function AutoCompleteSelect({
   filter,
   placeholder,
   isMulti = false,
+  styles = {},
 }) {
   const [option, setOption] = useState();
   return (
@@ -14,6 +15,7 @@ export default function AutoCompleteSelect({
       defaultOptions
       cacheOptions
       value={option}
+      styles={styles}
       placeholder={placeholder}
       loadOptions={filter}
       onChange={(options) => {
