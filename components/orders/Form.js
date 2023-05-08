@@ -26,6 +26,7 @@ export default function Form() {
             return {
               label: `First Name: ${client.first_name} | Last Name: ${client.last_name}`,
               value: client.id,
+              fullName: client.first_name + " " + client.last_name,
             };
           })
         )
@@ -79,13 +80,13 @@ export default function Form() {
     let allGood = true;
     const errChcker = {};
     console.log(quantity, pricePerUnit);
-    if (!client) {
+    if (!client.value) {
       errChcker.client = true;
       allGood = false;
     } else {
       errChcker.client = false;
     }
-    if (!model) {
+    if (!model.value) {
       errChcker.model = true;
       allGood = false;
     } else {
@@ -144,9 +145,12 @@ export default function Form() {
         )
       );
       await pb.collection("orders").create({
-        client_id: client,
-        model_id: model,
-        ressources: supplys.map((sup) => sup.value),
+        client_id: client.value,
+        client_full_name: client.fullName,
+        model_id: model.value,
+        model_name: model.label,
+        supplys: JSON.stringify(supplys.map((sup) => sup.value)),
+        supplys_names: supplys.map((sup) => sup.label),
         price_per_unit: pricePerUnit.value,
         quantity: quantity.value,
       });
@@ -164,7 +168,7 @@ export default function Form() {
               placeholder="Search for a Client with it's first or last name"
               filter={clientFilter}
               onChange={(option) => {
-                payload.current.client = option.value;
+                payload.current.client = option;
               }}
               styles={err.client ? errorStyles : {}}
             />
@@ -175,7 +179,7 @@ export default function Form() {
               placeholder="Search for a Model with it's name"
               filter={modelFilter}
               onChange={(option) => {
-                payload.current.model = option.value;
+                payload.current.model = option;
               }}
             />
           </div>
