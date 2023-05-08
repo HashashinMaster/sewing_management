@@ -3,9 +3,13 @@ import AutoCompleteSelect from "./AutoCompleteSelect";
 import { ScrollView } from "devextreme-react";
 import AsyncSelect from "react-select/async";
 import notify from "devextreme/ui/notify";
+import PocketBase from "pocketbase";
+import { useRouter } from "next/navigation";
 export default function Form() {
+  const { refresh } = useRouter();
   const payload = useRef({ supp: {}, client: "", model: "" });
   const [supplys, setSupplys] = useState([]);
+  console.log(supplys);
   const [err, setErr] = useState({
     client: false,
     model: false,
@@ -70,7 +74,7 @@ export default function Form() {
       },
     }),
   };
-  const validation = () => {
+  const validation = async () => {
     const { client, model, supp, quantity, pricePerUnit } = payload.current;
     let allGood = true;
     const errChcker = {};
@@ -127,6 +131,29 @@ export default function Form() {
         );
       }
     });
+
+    if (!allGood) return;
+    const pb = new PocketBase("http://127.0.0.1:8090");
+    try {
+      await Promise.all(
+        Object.keys(supp).map((key) =>
+          pb.collection("stock").update(key, {
+            quantity:
+              parseInt(supp[key].dataset.quantity) - parseInt(supp[key].value),
+          })
+        )
+      );
+      await pb.collection("orders").create({
+        client_id: client,
+        model_id: model,
+        ressources: supplys.map((sup) => sup.value),
+        price_per_unit: pricePerUnit.value,
+        quantity: quantity.value,
+      });
+      refresh();
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <ScrollView>
