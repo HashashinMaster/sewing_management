@@ -48,7 +48,7 @@ export default function Add({ onClick }) {
             />
           </g>
         </svg>
-        Ajouter
+        Add model
       </button>
     </div>
   );

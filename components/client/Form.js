@@ -17,7 +17,7 @@ export default function Form() {
         onClick={() => isEditing && disptach(setEditing(false))}
       >
         <i className="bi bi-plus"></i>
-        Ajouter
+        Add client
       </button>
       <Modal />
     </div>

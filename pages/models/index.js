@@ -49,7 +49,7 @@ export default function index({ models, err, search }) {
       <Head>
         <title> GUEDIRA | Models</title>
       </Head>
-      <Layout>
+      <Layout page={"Models"}>
         <EditModal />
         {models.totalItems < 1 && <NoModel onClickLink={togglePopup} />}
 

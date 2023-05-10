@@ -53,7 +53,7 @@ export default function stock({ stockItems, search, err }) {
       <Head>
         <title>GUEDIRA | STOCK</title>
       </Head>
-      <Layout>
+      <Layout page={"Stock"}>
         {stockItems.totalItems < 1 ? (
           <main className={styles.stock_empty}>
             <i class={`bi bi-box-fill ${styles.box_empty}`}></i>

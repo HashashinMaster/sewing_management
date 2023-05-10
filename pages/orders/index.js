@@ -12,10 +12,20 @@ import {
   SearchPanel,
   HeaderFilter,
   Paging,
+  LoadPanel,
+  MasterDetail,
 } from "devextreme-react/data-grid";
+import Master from "@/components/orders/Master";
 export default function index({ totalItems }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
   const [orders, setOrders] = useState([]);
+  const defaultColumns = [
+    "client full name",
+    "model",
+    "supplys",
+    "quantity",
+    "created",
+  ];
   useEffect(() => {
     (async () => {
       const data = await new PocketBase("http://127.0.0.1:8090")
@@ -27,22 +37,29 @@ export default function index({ totalItems }) {
       setOrders(
         data.map(
           ({
+            id,
+            client_id,
+            model_id,
             client_full_name,
             model_name,
             supplys_names,
             price_per_unit,
+            supplys,
             quantity,
             created,
-            updated,
           }) => {
             return {
               "client full name": client_full_name,
-              "price/unit": price_per_unit,
+              clientId: client_id,
               model: model_name,
+              modelId: model_id,
               supplys: supplys_names,
+              supplys_ids: supplys,
               quantity,
+              "price/unit": price_per_unit,
+              "total price": parseInt(price_per_unit) * parseInt(quantity),
               created: created.slice(0, 19),
-              updated: updated.slice(0, 19),
+              id,
             };
           }
         )
@@ -58,7 +75,7 @@ export default function index({ totalItems }) {
       <Head>
         <title>GUEDIRA | Orders</title>
       </Head>
-      <Layout>
+      <Layout page={"Orders"}>
         {totalItems < 1 ? (
           <NoOrders onClickLink={togglePopup} />
         ) : (
@@ -78,14 +95,21 @@ export default function index({ totalItems }) {
           <>
             <DataGrid
               dataSource={
-                orders.length > 0 ? orders : [{ message: "Loading..." }]
+                orders.length > 0
+                  ? orders
+                  : [{ id: "asdasdasfkoasdokfaspod", message: "Loading..." }]
               }
               noDataText="nothing matched"
+              focusedRowEnabled
+              keyExpr={"id"}
+              defaultColumns={defaultColumns}
             >
               <FilterRow visible={true} />
               <SearchPanel visible={true} />
               <Paging enabled={true} defaultPageSize={10} />
               <HeaderFilter visible={true} />
+              <LoadPanel enabled={true} />
+              <MasterDetail enabled component={Master} />
             </DataGrid>
           </>
         )}
