@@ -2,7 +2,7 @@ import Layout from "@/components/layout";
 import NoOrders from "@/components/orders/NoOrders";
 import Head from "next/head";
 import { Popup } from "devextreme-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Form from "@/components/orders/Form";
 import Add from "@/components/orders/Add";
 import PocketBase from "pocketbase";
@@ -14,18 +14,31 @@ import {
   Paging,
   LoadPanel,
   MasterDetail,
+  Column,
 } from "devextreme-react/data-grid";
+
 import Master from "@/components/orders/Master";
+import DeleteModal from "@/components/orders/DeleteModal";
 export default function index({ totalItems }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
   const [orders, setOrders] = useState([]);
-  const defaultColumns = [
-    "client full name",
-    "model",
-    "supplys",
-    "quantity",
-    "created",
-  ];
+  const deletedOrderId = useRef();
+  const actionsRender = ({ data }) => (
+    <>
+      <button
+        className="btn btn-danger mx-auto"
+        data-bs-toggle="modal"
+        data-bs-target="#delete"
+        style={{ display: "block" }}
+        onClick={(e) => {
+          deletedOrderId.current = data.id;
+        }}
+      >
+        Delete
+      </button>
+    </>
+  );
+
   useEffect(() => {
     (async () => {
       const data = await new PocketBase("http://127.0.0.1:8090")
@@ -102,7 +115,6 @@ export default function index({ totalItems }) {
               noDataText="nothing matched"
               focusedRowEnabled
               keyExpr={"id"}
-              defaultColumns={defaultColumns}
             >
               <FilterRow visible={true} />
               <SearchPanel visible={true} />
@@ -110,7 +122,24 @@ export default function index({ totalItems }) {
               <HeaderFilter visible={true} />
               <LoadPanel enabled={true} />
               <MasterDetail enabled component={Master} />
+              <Column
+                caption={"client full name"}
+                dataField={"client full name"}
+              />
+              <Column caption={"model"} dataField={"model"} />
+              <Column caption={"supplys"} dataField={"supplys"} />
+              <Column caption={"quantity"} dataField={"quantity"} />
+              <Column caption={"created"} dataField={"created"} />
+              <Column
+                cellRender={actionsRender}
+                caption={"Actions"}
+                dataField={"actions"}
+                allowSearch={false}
+                allowEditing={false}
+                allowFiltering={false}
+              />
             </DataGrid>
+            <DeleteModal action={deletedOrderId} />
           </>
         )}
       </Layout>

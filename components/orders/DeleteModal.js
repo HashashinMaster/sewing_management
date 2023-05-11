@@ -1,15 +1,12 @@
-import clsx from "clsx";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import PocketBase from "pocketbase";
-export default function DeleteModal({ id, type }) {
-  const { push } = useRouter();
+export default function DeleteModal({ action }) {
+  const { refresh } = useRouter();
+  console.log(action);
   const deleteUser = async () => {
     const pb = new PocketBase("http://127.0.0.1:8090");
-    //clients
-    await pb.collection(type).delete(id);
-    setTimeout(() => {
-      push(`/${type}`);
-    }, 500);
+    await pb.collection("orders").delete(action.current);
+    refresh();
   };
   return (
     <div
@@ -23,14 +20,7 @@ export default function DeleteModal({ id, type }) {
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">
-              Are you sure you want to delete this{" "}
-              {clsx({
-                client: type === "clients",
-                supply: type === "stock",
-                model: type === "models",
-                Order: type === "Orders",
-              })}
-              ?
+              Are you sure you want to delete this Order ?
             </h5>
             <button
               type="button"
@@ -41,14 +31,7 @@ export default function DeleteModal({ id, type }) {
           </div>
           <div class="modal-body">
             <p style={{ textAlign: "left" }}>
-              If you click delete. This{" "}
-              {clsx({
-                client: type === "clients",
-                supply: type === "stock",
-                model: type === "models",
-                Order: type === "Orders",
-              })}{" "}
-              will no longer exists{" "}
+              If you click delete. This Order will no longer exists{" "}
             </p>
           </div>
           <div class="modal-footer">
