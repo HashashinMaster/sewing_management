@@ -31,3 +31,5 @@ yarn-error.log*
 .vercel
 # pocketbase
 pb_data
+
+Dockerfile

@@ -10,7 +10,6 @@ import Search from "@/components/Search";
 export default function Clients({ clients, totalPages, page, search, err }) {
   const [pagesBtns, setPagesBtns] = useState([]);
   useEffect(() => {
-    console.log("c");
     let counter = 1;
     const btns = [];
     while (counter <= totalPages) {
@@ -44,7 +43,7 @@ export default function Clients({ clients, totalPages, page, search, err }) {
               id={styles.alert_margin}
               role="alert"
             >
-              vous n'avez pas encore ajouté de clients.{" "}
+              you did not any clients yet add.{" "}
               <a
                 className="alert-link"
                 style={{ cursor: "pointer" }}
@@ -122,7 +121,6 @@ export async function getServerSideProps(context) {
       `http://127.0.0.1:8090/api/collections/clients/records?page=${context.query.page}&filter=(first_name~"${search}" || last_name~"${search}"  || profession~"${search}" || adresse~"${search}" || age~"${search}" || email~"${search}" || tel~"${search}" || sexe~"${search}")`
     );
     const { items, totalPages, page } = await res.json();
-    console.log(page);
     return {
       props: {
         clients: items,
