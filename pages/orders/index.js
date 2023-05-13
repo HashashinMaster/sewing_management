@@ -19,12 +19,30 @@ import {
 
 import Master from "@/components/orders/Master";
 import DeleteModal from "@/components/orders/DeleteModal";
+import { useRouter } from "next/navigation";
 export default function index({ totalItems }) {
   const [isPopupVisible, setPopupVisibility] = useState(false);
   const [orders, setOrders] = useState([]);
   const deletedOrderId = useRef();
+  const { refresh } = useRouter();
   const actionsRender = ({ data }) => (
-    <>
+    <div
+      className={data.completed === "in progress" && "btn-group"}
+      role={data.completed === "in progress" && "group"}
+    >
+      {data.completed === "in progress" && (
+        <button
+          className="btn btn-success"
+          onClick={async () => {
+            await new PocketBase("http://127.0.0.1:8090")
+              .collection("orders")
+              .update(data.id, { completed: true });
+            refresh();
+          }}
+        >
+          Complete
+        </button>
+      )}
       <button
         className="btn btn-danger mx-auto"
         data-bs-toggle="modal"
@@ -36,7 +54,7 @@ export default function index({ totalItems }) {
       >
         Delete
       </button>
-    </>
+    </div>
   );
 
   useEffect(() => {
@@ -60,6 +78,7 @@ export default function index({ totalItems }) {
             supplys,
             quantity,
             created,
+            completed,
           }) => {
             return {
               "client full name": client_full_name,
@@ -72,6 +91,7 @@ export default function index({ totalItems }) {
               "price/unit": price_per_unit,
               "total price": parseInt(price_per_unit) * parseInt(quantity),
               created: created.slice(0, 19),
+              completed: completed ? "completed" : "in progress",
               id,
             };
           }
@@ -130,6 +150,7 @@ export default function index({ totalItems }) {
               <Column caption={"supplys"} dataField={"supplys"} />
               <Column caption={"quantity"} dataField={"quantity"} />
               <Column caption={"created"} dataField={"created"} />
+              <Column caption={"state"} dataField={"completed"} />
               <Column
                 cellRender={actionsRender}
                 caption={"Actions"}

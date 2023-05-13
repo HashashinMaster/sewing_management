@@ -53,6 +53,14 @@ export default function Layout({ children, page }) {
                 </li>
                 <li className="nav-item">
                   <Link
+                    className={clsx("nav-link", page === "Orders" && " active")}
+                    href="/orders"
+                  >
+                    Orders
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
                     className={clsx("nav-link", page === "Stock" && "active")}
                     href="/stock"
                   >
@@ -68,14 +76,6 @@ export default function Layout({ children, page }) {
                     href="/clients"
                   >
                     Clients
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className={clsx("nav-link", page === "Orders" && " active")}
-                    href="/orders"
-                  >
-                    Orders
                   </Link>
                 </li>
                 <li className="nav-item">

@@ -1,10 +1,19 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
-import { Chart, Series } from "devextreme-react/chart";
+import {
+  Chart,
+  Series,
+  SeriesTemplate,
+  CommonSeriesSettings,
+  Title,
+  Tooltip,
+} from "devextreme-react/chart";
 import PocketBase from "pocketbase";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
+import styles from "@/styles/Home.module.css";
+import OverviewCard from "@/components/home/OverviewCard";
 export default function Home() {
-  const [thisYearMonthData, monthsDispatch] = useReducer((state, action) => {
+  const [thisYearMonthData, dispatchMonths] = useReducer((state, action) => {
     const months = [
       {
         month: "1",
@@ -66,29 +75,55 @@ export default function Home() {
 
     return months;
   }, []);
-  const [orderIncomes, orderIncomesDisptach] = useReducer((state, action) => {
-    const totalIncome = action.reduce(
-      (prevValue, currValue) =>
-        parseInt(currValue.quantity) * parseInt(currValue.price_per_unit) +
-        prevValue,
-      0
-    );
-    console.log(action[0].created.slice(0, 4));
-    const totalYearIncome = action.reduce((prevValue, currValue) => {
-      if (currValue.created.slice(0, 4) == new Date().getFullYear()) {
-        return (
+  const [orderIncomes, disptachOrderIncomes] = useReducer(
+    (state, action) => {
+      const totalIncome = action.reduce(
+        (prevValue, currValue) =>
           parseInt(currValue.quantity) * parseInt(currValue.price_per_unit) +
-          prevValue
-        );
-      }
-      return prevValue;
-    }, 0);
-    return {
-      totalIncome,
-      totalYearIncome,
-    };
-  });
-  console.log(orderIncomes, "incomes");
+          prevValue,
+        0
+      );
+      const totalYearIncome = action.reduce((prevValue, currValue) => {
+        if (currValue.created.slice(0, 4) == new Date().getFullYear()) {
+          return (
+            parseInt(currValue.quantity) * parseInt(currValue.price_per_unit) +
+            prevValue
+          );
+        }
+        return prevValue;
+      }, 0);
+      return {
+        totalIncome,
+        totalYearIncome,
+      };
+    },
+    { totalIncome: 0, totalYearIncome: 0 }
+  );
+  const [completedOrders, dispatchCompletedOrders] = useReducer(
+    (state, action) => {
+      return action.reduce(
+        (prevValue, currValue) => {
+          if (currValue.completed) {
+            prevValue[0].counter++;
+          } else {
+            prevValue[1].counter++;
+          }
+          return prevValue;
+        },
+        [
+          {
+            status: "completed",
+            counter: 0,
+          },
+          {
+            status: "uncompleted",
+            counter: 0,
+          },
+        ]
+      );
+    }
+  );
+  console.log(completedOrders);
   useEffect(() => {
     (async () => {
       const pb = new PocketBase("http://127.0.0.1:8090");
@@ -96,13 +131,9 @@ export default function Home() {
         batch: "-1",
         filter: `created >= "${new Date().getFullYear()}"`,
       });
-      const orders2 = await pb.collection("orders").getFullList({
-        batch: "-1",
-        filter: `created >= "${new Date().getFullYear()}"`,
-        fields: "quantity",
-      });
-      monthsDispatch(orders);
-      orderIncomesDisptach(orders);
+      dispatchMonths(orders);
+      disptachOrderIncomes(orders);
+      dispatchCompletedOrders(orders);
     })();
   }, []);
   return (
@@ -115,48 +146,47 @@ export default function Home() {
       </Head>
       <div style={{ display: "flex", gap: "1rem" }} className="mt-5">
         <div style={{ width: "50%" }}>
-          <table className="table mb-0">
-            <thead>
-              <tr>
-                <th>Total Orders income</th>
-                <th>Total Orders income in {new Date().getFullYear()}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  {new Intl.NumberFormat("de-DE", {
-                    style: "currency",
-                    currency: "MAD",
-                  }).format(orderIncomes.totalIncome)}
-                </td>
-                <td>
-                  {new Intl.NumberFormat("de-DE", {
-                    style: "currency",
-                    currency: "MAD",
-                  }).format(orderIncomes.totalYearIncome)}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className={styles.cards_container}>
+            <OverviewCard
+              title={"Total Orders Income"}
+              value={orderIncomes.totalIncome}
+            />
+            <OverviewCard
+              title={`Total Orders income in ${new Date().getFullYear()}`}
+              value={orderIncomes.totalYearIncome}
+            />
+          </div>
           <Chart dataSource={thisYearMonthData}>
-            <Series
-              valueField="income"
+            <CommonSeriesSettings
               argumentField="month"
-              name={`${new Date().getFullYear()} Month Income`}
+              valueField="income"
               type="bar"
-              color="#85bb65"
+              ignoreEmptyPoints={true}
+            />
+            <SeriesTemplate nameField="month" />
+            <Title
+              text="Month Orders Breakdown"
+              subtitle={`as of ${new Date().getFullYear()}`}
+            />
+            <Tooltip
+              enabled={true}
+              format={{
+                style: "currency",
+                currency: "MAD",
+              }}
             />
           </Chart>
         </div>
-        <Chart dataSource={thisYearMonthData} width={"45%"}>
-          <Series
-            valueField="income"
-            argumentField="month"
-            name={new Date().getFullYear()}
+        <Chart dataSource={completedOrders} width={"45%"}>
+          <CommonSeriesSettings
+            argumentField="status"
+            valueField="counter"
             type="bar"
-            color="#85bb65"
+            ignoreEmptyPoints={true}
           />
+          <SeriesTemplate nameField="status" />
+          <Title text="Orders Status Breakdown" subtitle={`All Orders`} />
+          <Tooltip enabled={true} />
         </Chart>
       </div>
       <Layout page={"Home"}></Layout>
