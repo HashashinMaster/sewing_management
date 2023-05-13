@@ -14,6 +14,7 @@ export default function Home() {
       </Head>
       <Layout page={"Home"}>
         <OrderCharts />
+        <hr style={{ height: "1px" }} />
         <ClientCharts />
       </Layout>
     </>

@@ -134,6 +134,7 @@ export default function OrderCharts(params) {
           <OverviewCard
             title={`Total Orders income in ${new Date().getFullYear()}`}
             value={orderIncomes.totalIncome}
+            format={"currency"}
           />
         </div>
         <Chart dataSource={thisYearMonthData}>
@@ -145,7 +146,7 @@ export default function OrderCharts(params) {
           />
           <SeriesTemplate nameField="month" />
           <Title
-            text="Month Orders Breakdown"
+            text="Month Orders Income Breakdown"
             subtitle={`as of ${new Date().getFullYear()}`}
           />
           <Tooltip
