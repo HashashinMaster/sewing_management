@@ -1,6 +1,110 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
+import { Chart, Series } from "devextreme-react/chart";
+import PocketBase from "pocketbase";
+import { useEffect, useReducer, useState } from "react";
 export default function Home() {
+  const [thisYearMonthData, monthsDispatch] = useReducer((state, action) => {
+    const months = [
+      {
+        month: "1",
+        income: 20000,
+      },
+      {
+        month: "2",
+        income: 1000,
+      },
+      {
+        month: "3",
+        income: 10000,
+      },
+      {
+        month: "4",
+        income: 200000,
+      },
+      {
+        month: "5",
+        income: 0,
+      },
+      {
+        month: "6",
+        income: 0,
+      },
+      {
+        month: "7",
+        income: 0,
+      },
+      {
+        month: "8",
+        income: 0,
+      },
+      {
+        month: "9",
+        income: 0,
+      },
+      {
+        month: "10",
+        income: 0,
+      },
+      {
+        month: "11",
+        income: 0,
+      },
+      {
+        month: "12",
+        income: 0,
+      },
+    ];
+    action.map((order) => {
+      const month = months.find(
+        (month) => order.created.slice(6, 7) === month.month
+      );
+      if (month)
+        month.income +=
+          parseInt(order.quantity) + parseInt(order.price_per_unit);
+    });
+
+    return months;
+  }, []);
+  const [orderIncomes, orderIncomesDisptach] = useReducer((state, action) => {
+    const totalIncome = action.reduce(
+      (prevValue, currValue) =>
+        parseInt(currValue.quantity) * parseInt(currValue.price_per_unit) +
+        prevValue,
+      0
+    );
+    console.log(action[0].created.slice(0, 4));
+    const totalYearIncome = action.reduce((prevValue, currValue) => {
+      if (currValue.created.slice(0, 4) == new Date().getFullYear()) {
+        return (
+          parseInt(currValue.quantity) * parseInt(currValue.price_per_unit) +
+          prevValue
+        );
+      }
+      return prevValue;
+    }, 0);
+    return {
+      totalIncome,
+      totalYearIncome,
+    };
+  });
+  console.log(orderIncomes, "incomes");
+  useEffect(() => {
+    (async () => {
+      const pb = new PocketBase("http://127.0.0.1:8090");
+      const orders = await pb.collection("orders").getFullList({
+        batch: "-1",
+        filter: `created >= "${new Date().getFullYear()}"`,
+      });
+      const orders2 = await pb.collection("orders").getFullList({
+        batch: "-1",
+        filter: `created >= "${new Date().getFullYear()}"`,
+        fields: "quantity",
+      });
+      monthsDispatch(orders);
+      orderIncomesDisptach(orders);
+    })();
+  }, []);
   return (
     <>
       <Head>
@@ -9,6 +113,52 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div style={{ display: "flex", gap: "1rem" }} className="mt-5">
+        <div style={{ width: "50%" }}>
+          <table className="table mb-0">
+            <thead>
+              <tr>
+                <th>Total Orders income</th>
+                <th>Total Orders income in {new Date().getFullYear()}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {new Intl.NumberFormat("de-DE", {
+                    style: "currency",
+                    currency: "MAD",
+                  }).format(orderIncomes.totalIncome)}
+                </td>
+                <td>
+                  {new Intl.NumberFormat("de-DE", {
+                    style: "currency",
+                    currency: "MAD",
+                  }).format(orderIncomes.totalYearIncome)}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <Chart dataSource={thisYearMonthData}>
+            <Series
+              valueField="income"
+              argumentField="month"
+              name={`${new Date().getFullYear()} Month Income`}
+              type="bar"
+              color="#85bb65"
+            />
+          </Chart>
+        </div>
+        <Chart dataSource={thisYearMonthData} width={"45%"}>
+          <Series
+            valueField="income"
+            argumentField="month"
+            name={new Date().getFullYear()}
+            type="bar"
+            color="#85bb65"
+          />
+        </Chart>
+      </div>
       <Layout page={"Home"}></Layout>
     </>
   );
