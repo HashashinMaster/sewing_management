@@ -1,1 +1,1 @@
-# Project still under dev
+# Full documentation will be available soon
