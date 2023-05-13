@@ -117,6 +117,7 @@ export default function Master({ data }) {
                           supply.picture && true,
                       })}
                       alt={`${supply.supply_name}'s Picture`}
+                      style={{ "object-fit": "cover" }}
                       width={40}
                       height={40}
                       className="img-responsive"
