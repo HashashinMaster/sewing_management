@@ -120,7 +120,7 @@ export async function getServerSideProps(context) {
     const res = await fetch(
       `http://${
         process.env.NODE_ENV === "production"
-          ? "0.0.0.0:8080"
+          ? "sewing_api:8080"
           : "127.0.0.1:8090"
       }/api/collections/clients/records?page=${
         context.query.page
@@ -140,7 +140,7 @@ export async function getServerSideProps(context) {
     const res = await fetch(
       `http://${
         process.env.NODE_ENV === "production"
-          ? "0.0.0.0:8080"
+          ? "sewing_api:8080"
           : "127.0.0.1:8090"
       }/api/collections/clients/records?page=${context.query.page}`
     );
@@ -161,7 +161,7 @@ export async function getServerSideProps(context) {
     const res = await fetch(
       `http://${
         process.env.NODE_ENV === "production"
-          ? "0.0.0.0:8080"
+          ? "sewing_api:8080"
           : "127.0.0.1:8090"
       }/api/collections/clients/records?filter=(first_name~"${search}" || last_name~"${search}"  || profession~"${search}" || adresse~"${search}" || age~"${search}" || email~"${search}" || tel~"${search}" || sexe~"${search}")`
     );
@@ -179,7 +179,7 @@ export async function getServerSideProps(context) {
       const res = await fetch(
         "http://" +
           (process.env.NODE_ENV === "production"
-            ? "0.0.0.0:8080"
+            ? "sewing_api:8080"
             : "127.0.0.1:8090") +
           "/api/collections/clients/records"
       );
@@ -198,7 +198,7 @@ export async function getServerSideProps(context) {
   const res = await fetch(
     "http://" +
       (process.env.NODE_ENV === "production"
-        ? "0.0.0.0:8080"
+        ? "sewing_api:8080"
         : "127.0.0.1:8090") +
       "/api/collections/clients/records"
   );

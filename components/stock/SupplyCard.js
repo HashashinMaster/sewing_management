@@ -28,7 +28,7 @@ export default function SupplyCard({
             "/stock/product.jpg": supply_type === "Product" && !picture,
             [`http://${
               process.env.NODE_ENV === "production"
-                ? "0.0.0.0:8080"
+                ? "sewing_api:8080"
                 : "127.0.0.1:8090"
             }/api/files/stock/${id}/${picture}`]: picture && true,
           })}

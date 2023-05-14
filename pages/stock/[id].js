@@ -69,7 +69,7 @@ export default function supply({
                   "/stock/product.jpg": supply_type === "Product" && !picture,
                   [`http://${
                     process.env.NODE_ENV === "production"
-                      ? "0.0.0.0:8080"
+                      ? "sewing_api:8080"
                       : "127.0.0.1:8090"
                   }/api/files/stock/${id}/${picture}`]: picture && true,
                 })}
@@ -145,7 +145,7 @@ export async function getServerSideProps(context) {
     await fetch(
       `http://${
         process.env.NODE_ENV === "production"
-          ? "0.0.0.0:8080"
+          ? "sewing_api:8080"
           : "127.0.0.1:8090"
       }/api/collections/stock/records/${context.params.id}`
     )

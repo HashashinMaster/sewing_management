@@ -37,7 +37,7 @@ export default function index({ totalItems }) {
             await new PocketBase(
               "http://" +
                 (process.env.NODE_ENV === "production"
-                  ? "0.0.0.0:8080"
+                  ? "sewing_api:8080"
                   : "127.0.0.1:8090") +
                 ""
             )
@@ -68,7 +68,7 @@ export default function index({ totalItems }) {
       const data = await new PocketBase(
         "http://" +
           (process.env.NODE_ENV === "production"
-            ? "0.0.0.0:8080"
+            ? "sewing_api:8080"
             : "127.0.0.1:8090") +
           ""
       )
@@ -184,7 +184,7 @@ export async function getServerSideProps() {
     await fetch(
       "http://" +
         (process.env.NODE_ENV === "production"
-          ? "0.0.0.0:8080"
+          ? "sewing_api:8080"
           : "127.0.0.1:8090") +
         "/api/collections/orders/records?perPage=-1&limit=-1"
     )

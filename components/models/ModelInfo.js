@@ -10,7 +10,7 @@ export default function ModelInfo({ info }) {
             <Image
               src={`http://${
                 process.env.NODE_ENV === "production"
-                  ? "0.0.0.0:8080"
+                  ? "sewing_api:8080"
                   : "127.0.0.1:8090"
               }/api/files/models/${info.id}/${info.picture}`}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}

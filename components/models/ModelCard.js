@@ -40,7 +40,7 @@ export default function ModelCard({
         <Image
           src={`http://${
             process.env.NODE_ENV === "production"
-              ? "0.0.0.0:8080"
+              ? "sewing_api:8080"
               : "127.0.0.1:8090"
           }/api/files/models/${id}/${picture}`}
           style={{ width: "100%", height: "20vw", objectFit: "cover" }}

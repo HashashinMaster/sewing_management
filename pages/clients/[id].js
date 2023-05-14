@@ -37,7 +37,7 @@ export default function client({
                       avatar
                         ? `http://${
                             process.env.NODE_ENV === "production"
-                              ? "0.0.0.0:8080"
+                              ? "sewing_api:8080"
                               : "127.0.0.1:8090"
                           }/api/files/clients/${id}/${avatar}`
                         : "/noavatar.svg"
@@ -114,7 +114,9 @@ export default function client({
 export async function getServerSideProps(context) {
   const res = await fetch(
     `http://${
-      process.env.NODE_ENV === "production" ? "0.0.0.0:8080" : "127.0.0.1:8090"
+      process.env.NODE_ENV === "production"
+        ? "sewing_api:8080"
+        : "127.0.0.1:8090"
     }/api/collections/clients/records/${context.params.id}`
   );
   const data = await res.json();

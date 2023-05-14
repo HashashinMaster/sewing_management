@@ -37,7 +37,7 @@ export async function getServerSideProps(context) {
     await fetch(
       `http://${
         process.env.NODE_ENV === "production"
-          ? "0.0.0.0:8080"
+          ? "sewing_api:8080"
           : "127.0.0.1:8090"
       }/api/collections/models/records/${context.params.id}`
     )

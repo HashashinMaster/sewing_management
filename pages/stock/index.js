@@ -135,7 +135,7 @@ export async function getServerSideProps(context) {
       await fetch(
         `http://${
           process.env.NODE_ENV === "production"
-            ? "0.0.0.0:8080"
+            ? "sewing_api:8080"
             : "127.0.0.1:8090"
         }/api/collections/stock/records?page=${
           context.query.page
@@ -154,7 +154,7 @@ export async function getServerSideProps(context) {
       await fetch(
         `http://${
           process.env.NODE_ENV === "production"
-            ? "0.0.0.0:8080"
+            ? "sewing_api:8080"
             : "127.0.0.1:8090"
         }/api/collections/stock/records?page=${context.query.page}`
       )
@@ -172,7 +172,7 @@ export async function getServerSideProps(context) {
       await fetch(
         `http://${
           process.env.NODE_ENV === "production"
-            ? "0.0.0.0:8080"
+            ? "sewing_api:8080"
             : "127.0.0.1:8090"
         }/api/collections/stock/records?filter=(supply_name~"${search}" || supply_type~"${search}"  || quantity~"${search}" || price_per_unit~"${search}" || description~"${search}")`
       )
@@ -189,7 +189,7 @@ export async function getServerSideProps(context) {
         await fetch(
           "http://" +
             (process.env.NODE_ENV === "production"
-              ? "0.0.0.0:8080"
+              ? "sewing_api:8080"
               : "127.0.0.1:8090") +
             "/api/collections/stock/records"
         )
@@ -207,7 +207,7 @@ export async function getServerSideProps(context) {
     await fetch(
       "http://" +
         (process.env.NODE_ENV === "production"
-          ? "0.0.0.0:8080"
+          ? "sewing_api:8080"
           : "127.0.0.1:8090") +
         "/api/collections/stock/records?page=1"
     )

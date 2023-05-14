@@ -7,7 +7,7 @@ export default function DeleteModal({ id, type }) {
     const pb = new PocketBase(
       "http://" +
         (process.env.NODE_ENV === "production"
-          ? "0.0.0.0:8080"
+          ? "sewing_api:8080"
           : "127.0.0.1:8090") +
         ""
     );
