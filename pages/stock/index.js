@@ -133,7 +133,13 @@ export async function getServerSideProps(context) {
     if (search[0] === " ") search = "%2B" + search.slice(1);
     const data = await (
       await fetch(
-        `http://127.0.0.1:8090/api/collections/stock/records?page=${context.query.page}&filter=(supply_name~"${search}" || supply_type~"${search}"  || quantity~"${search}" || price_per_unit~"${search}" || description~"${search}")`
+        `http://${
+          process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090"
+        }/api/collections/stock/records?page=${
+          context.query.page
+        }&filter=(supply_name~"${search}" || supply_type~"${search}"  || quantity~"${search}" || price_per_unit~"${search}" || description~"${search}")`
       )
     ).json();
     return {
@@ -146,7 +152,11 @@ export async function getServerSideProps(context) {
   if (context.query.page) {
     const data = await (
       await fetch(
-        `http://127.0.0.1:8090/api/collections/stock/records?page=${context.query.page}`
+        `http://${
+          process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090"
+        }/api/collections/stock/records?page=${context.query.page}`
       )
     ).json();
     return {
@@ -160,7 +170,11 @@ export async function getServerSideProps(context) {
     if (search[0] === " ") search = "%2B" + search.slice(1);
     const data = await (
       await fetch(
-        `http://127.0.0.1:8090/api/collections/stock/records?filter=(supply_name~"${search}" || supply_type~"${search}"  || quantity~"${search}" || price_per_unit~"${search}" || description~"${search}")`
+        `http://${
+          process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090"
+        }/api/collections/stock/records?filter=(supply_name~"${search}" || supply_type~"${search}"  || quantity~"${search}" || price_per_unit~"${search}" || description~"${search}")`
       )
     ).json();
     if (data.items.length > 0)
@@ -172,7 +186,13 @@ export async function getServerSideProps(context) {
       };
     else {
       const data = await (
-        await fetch("http://127.0.0.1:8090/api/collections/stock/records")
+        await fetch(
+          "http://" +
+            (process.env.NODE_ENV === "production"
+              ? "0.0.0.0:8080"
+              : "127.0.0.1:8090") +
+            "/api/collections/stock/records"
+        )
       ).json();
       return {
         props: {
@@ -184,7 +204,13 @@ export async function getServerSideProps(context) {
   }
 
   const data = await (
-    await fetch("http://127.0.0.1:8090/api/collections/stock/records?page=1")
+    await fetch(
+      "http://" +
+        (process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090") +
+        "/api/collections/stock/records?page=1"
+    )
   ).json();
   return {
     props: {

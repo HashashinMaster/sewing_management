@@ -1,4 +1,3 @@
-import { setData, setIsEditing } from "@/redux/model";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 export default function ModelInfo({ info }) {
@@ -9,7 +8,11 @@ export default function ModelInfo({ info }) {
         <div className="row w-100">
           <div className="col-md-4">
             <Image
-              src={`http://127.0.0.1:8090/api/files/models/${info.id}/${info.picture}`}
+              src={`http://${
+                process.env.NODE_ENV === "production"
+                  ? "0.0.0.0:8080"
+                  : "127.0.0.1:8090"
+              }/api/files/models/${info.id}/${info.picture}`}
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
               width={100}
               height={100}

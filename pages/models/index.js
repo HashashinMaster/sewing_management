@@ -116,7 +116,13 @@ export async function getServerSideProps(context) {
     if (search[0] === " ") search = "%2B" + search.slice(1);
     const data = await (
       await fetch(
-        `http://127.0.0.1:8090/api/collections/models/records?page=${context.query.page}&filter=(model_name~"${search}" || description~"${search}"  || created~"${search}")`
+        `http://${
+          process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090"
+        }/api/collections/models/records?page=${
+          context.query.page
+        }&filter=(model_name~"${search}" || description~"${search}"  || created~"${search}")`
       )
     ).json();
     return {
@@ -129,7 +135,11 @@ export async function getServerSideProps(context) {
   if (context.query.page) {
     const data = await (
       await fetch(
-        `http://127.0.0.1:8090/api/collections/models/records?page=${context.query.page}`
+        `http://${
+          process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090"
+        }/api/collections/models/records?page=${context.query.page}`
       )
     ).json();
     return {
@@ -143,7 +153,11 @@ export async function getServerSideProps(context) {
     if (search[0] === " ") search = "%2B" + search.slice(1);
     const data = await (
       await fetch(
-        `http://127.0.0.1:8090/api/collections/models/records?filter=(model_name~"${search}" || description~"${search}"  || created~"${search}")`
+        `http://${
+          process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090"
+        }/api/collections/models/records?filter=(model_name~"${search}" || description~"${search}"  || created~"${search}")`
       )
     ).json();
     console.log(data);
@@ -156,7 +170,13 @@ export async function getServerSideProps(context) {
       };
     else {
       const data = await (
-        await fetch("http://127.0.0.1:8090/api/collections/models/records")
+        await fetch(
+          "http://" +
+            (process.env.NODE_ENV === "production"
+              ? "0.0.0.0:8080"
+              : "127.0.0.1:8090") +
+            "/api/collections/models/records"
+        )
       ).json();
       return {
         props: {
@@ -167,7 +187,13 @@ export async function getServerSideProps(context) {
     }
   }
   const data = await (
-    await fetch("http://127.0.0.1:8090/api/collections/models/records?page=1")
+    await fetch(
+      "http://" +
+        (process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090") +
+        "/api/collections/models/records?page=1"
+    )
   ).json();
   return {
     props: {

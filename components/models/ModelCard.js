@@ -1,7 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setEditing } from "@/redux/form";
 import { setData, togglePopUp } from "@/redux/model";
 import { useRouter } from "next/navigation";
 export default function ModelCard({
@@ -40,7 +38,11 @@ export default function ModelCard({
         style={{ width: "14rem", cursor: "pointer" }}
       >
         <Image
-          src={`http://127.0.0.1:8090/api/files/models/${id}/${picture}`}
+          src={`http://${
+            process.env.NODE_ENV === "production"
+              ? "0.0.0.0:8080"
+              : "127.0.0.1:8090"
+          }/api/files/models/${id}/${picture}`}
           style={{ width: "100%", height: "20vw", objectFit: "cover" }}
           width={100}
           height={100}

@@ -1,4 +1,3 @@
-import { ScrollView } from "devextreme-react";
 import { useEffect, useRef } from "react";
 import PocketBase from "pocketbase";
 import { useRouter } from "next/navigation";
@@ -32,7 +31,13 @@ export default function Form() {
       picture.classList.add("is-valid");
     }
     if (!allGood) return;
-    const pb = new PocketBase("http://127.0.0.1:8090");
+    const pb = new PocketBase(
+      "http://" +
+        (process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090") +
+        ""
+    );
     const formData = new FormData();
     formData.append("model_name", name.value);
     formData.append("description", description.value);

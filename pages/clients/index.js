@@ -118,7 +118,13 @@ export async function getServerSideProps(context) {
     let { search } = context.query;
     if (search[0] === " ") search = "%2B" + search.slice(1);
     const res = await fetch(
-      `http://127.0.0.1:8090/api/collections/clients/records?page=${context.query.page}&filter=(first_name~"${search}" || last_name~"${search}"  || profession~"${search}" || adresse~"${search}" || age~"${search}" || email~"${search}" || tel~"${search}" || sexe~"${search}")`
+      `http://${
+        process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090"
+      }/api/collections/clients/records?page=${
+        context.query.page
+      }&filter=(first_name~"${search}" || last_name~"${search}"  || profession~"${search}" || adresse~"${search}" || age~"${search}" || email~"${search}" || tel~"${search}" || sexe~"${search}")`
     );
     const { items, totalPages, page } = await res.json();
     return {
@@ -132,7 +138,11 @@ export async function getServerSideProps(context) {
   }
   if (context.query.page) {
     const res = await fetch(
-      `http://127.0.0.1:8090/api/collections/clients/records?page=${context.query.page}`
+      `http://${
+        process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090"
+      }/api/collections/clients/records?page=${context.query.page}`
     );
     const { items, totalPages, totalItems, page } = await res.json();
     return {
@@ -149,7 +159,11 @@ export async function getServerSideProps(context) {
     if (search[0] === " ") search = "%2B" + search.slice(1);
     console.log(search);
     const res = await fetch(
-      `http://127.0.0.1:8090/api/collections/clients/records?filter=(first_name~"${search}" || last_name~"${search}"  || profession~"${search}" || adresse~"${search}" || age~"${search}" || email~"${search}" || tel~"${search}" || sexe~"${search}")`
+      `http://${
+        process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090"
+      }/api/collections/clients/records?filter=(first_name~"${search}" || last_name~"${search}"  || profession~"${search}" || adresse~"${search}" || age~"${search}" || email~"${search}" || tel~"${search}" || sexe~"${search}")`
     );
     const { items, totalPages, page } = await res.json();
     if (items.length > 0)
@@ -163,7 +177,11 @@ export async function getServerSideProps(context) {
       };
     else {
       const res = await fetch(
-        "http://127.0.0.1:8090/api/collections/clients/records"
+        "http://" +
+          (process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090") +
+          "/api/collections/clients/records"
       );
       const { items, totalPages, page } = await res.json();
       return {
@@ -178,7 +196,11 @@ export async function getServerSideProps(context) {
   }
 
   const res = await fetch(
-    "http://127.0.0.1:8090/api/collections/clients/records"
+    "http://" +
+      (process.env.NODE_ENV === "production"
+        ? "0.0.0.0:8080"
+        : "127.0.0.1:8090") +
+      "/api/collections/clients/records"
   );
   const { items, totalPages, page } = await res.json();
   return {

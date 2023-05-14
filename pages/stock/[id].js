@@ -67,8 +67,11 @@ export default function supply({
                   "/stock/ressources.jpg":
                     supply_type === "Ressource" && !picture,
                   "/stock/product.jpg": supply_type === "Product" && !picture,
-                  [`http://127.0.0.1:8090/api/files/stock/${id}/${picture}`]:
-                    picture && true,
+                  [`http://${
+                    process.env.NODE_ENV === "production"
+                      ? "0.0.0.0:8080"
+                      : "127.0.0.1:8090"
+                  }/api/files/stock/${id}/${picture}`]: picture && true,
                 })}
                 className="img-fluid"
                 alt="Supply Picture"
@@ -140,7 +143,11 @@ export default function supply({
 export async function getServerSideProps(context) {
   const data = await (
     await fetch(
-      `http://127.0.0.1:8090/api/collections/stock/records/${context.params.id}`
+      `http://${
+        process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090"
+      }/api/collections/stock/records/${context.params.id}`
     )
   ).json();
 

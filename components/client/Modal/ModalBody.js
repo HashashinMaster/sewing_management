@@ -59,7 +59,13 @@ export default function ModalBody({ data }) {
     }
     if (allGood) {
       console.log(isEditing);
-      const pb = new PocketBase("http://127.0.0.1:8090");
+      const pb = new PocketBase(
+        "http://" +
+          (process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090") +
+          ""
+      );
       const formData = new FormData();
       formData.append("first_name", firstName.value);
       formData.append("last_name", lastName.value);

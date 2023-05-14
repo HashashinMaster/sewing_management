@@ -68,7 +68,13 @@ export default function Form() {
       price.classList.add("is-valid");
     }
     if (!allGood) return;
-    const pb = new PocketBase("http://127.0.0.1:8090");
+    const pb = new PocketBase(
+      "http://" +
+        (process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090") +
+        ""
+    );
     const formData = new FormData();
     formData.append("supply_name", supplyName.value);
     formData.append("supply_type", supplyType.value);

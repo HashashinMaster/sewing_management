@@ -34,7 +34,13 @@ export default function index({ totalItems }) {
         <button
           className="btn btn-success"
           onClick={async () => {
-            await new PocketBase("http://127.0.0.1:8090")
+            await new PocketBase(
+              "http://" +
+                (process.env.NODE_ENV === "production"
+                  ? "0.0.0.0:8080"
+                  : "127.0.0.1:8090") +
+                ""
+            )
               .collection("orders")
               .update(data.id, { completed: true });
             refresh();
@@ -59,7 +65,13 @@ export default function index({ totalItems }) {
 
   useEffect(() => {
     (async () => {
-      const data = await new PocketBase("http://127.0.0.1:8090")
+      const data = await new PocketBase(
+        "http://" +
+          (process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090") +
+          ""
+      )
         .collection("orders")
         .getFullList({
           batch: "-1",
@@ -167,10 +179,14 @@ export default function index({ totalItems }) {
     </>
   );
 }
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const { totalItems } = await (
     await fetch(
-      "http://127.0.0.1:8090/api/collections/orders/records?perPage=-1&limit=-1"
+      "http://" +
+        (process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090") +
+        "/api/collections/orders/records?perPage=-1&limit=-1"
     )
   ).json();
   return {

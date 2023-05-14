@@ -20,7 +20,11 @@ export default function Client({
         <Image
           src={
             avatar
-              ? `http://127.0.0.1:8090/api/files/clients/${id}/${avatar}`
+              ? `http://${
+                  process.env.NODE_ENV === "production"
+                    ? "0.0.0.0:8080"
+                    : "127.0.0.1:8090"
+                }/api/files/clients/${id}/${avatar}`
               : "/noavatar.svg"
           }
           width={40}

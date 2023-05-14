@@ -35,7 +35,11 @@ export default function model(props) {
 export async function getServerSideProps(context) {
   const data = await (
     await fetch(
-      `http://127.0.0.1:8090/api/collections/models/records/${context.params.id}`
+      `http://${
+        process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090"
+      }/api/collections/models/records/${context.params.id}`
     )
   ).json();
 

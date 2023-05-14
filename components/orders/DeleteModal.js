@@ -2,9 +2,14 @@ import { useRouter } from "next/navigation";
 import PocketBase from "pocketbase";
 export default function DeleteModal({ action }) {
   const { refresh } = useRouter();
-  console.log(action);
   const deleteUser = async () => {
-    const pb = new PocketBase("http://127.0.0.1:8090");
+    const pb = new PocketBase(
+      "http://" +
+        (process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090") +
+        ""
+    );
     await pb.collection("orders").delete(action.current);
     refresh();
   };

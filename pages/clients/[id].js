@@ -35,7 +35,11 @@ export default function client({
                     height={200}
                     src={
                       avatar
-                        ? `http://127.0.0.1:8090/api/files/clients/${id}/${avatar}`
+                        ? `http://${
+                            process.env.NODE_ENV === "production"
+                              ? "0.0.0.0:8080"
+                              : "127.0.0.1:8090"
+                          }/api/files/clients/${id}/${avatar}`
                         : "/noavatar.svg"
                     }
                     alt="Profile Picture"
@@ -109,7 +113,9 @@ export default function client({
 
 export async function getServerSideProps(context) {
   const res = await fetch(
-    `http://127.0.0.1:8090/api/collections/clients/records/${context.params.id}`
+    `http://${
+      process.env.NODE_ENV === "production" ? "0.0.0.0:8080" : "127.0.0.1:8090"
+    }/api/collections/clients/records/${context.params.id}`
   );
   const data = await res.json();
   console.log(data);

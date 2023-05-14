@@ -4,7 +4,13 @@ import PocketBase from "pocketbase";
 export default function DeleteModal({ id, type }) {
   const { push } = useRouter();
   const deleteUser = async () => {
-    const pb = new PocketBase("http://127.0.0.1:8090");
+    const pb = new PocketBase(
+      "http://" +
+        (process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090") +
+        ""
+    );
     //clients
     await pb.collection(type).delete(id);
     setTimeout(() => {

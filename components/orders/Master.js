@@ -19,7 +19,13 @@ export default function Master({ data }) {
   console.log(data.data);
   useEffect(() => {
     (async () => {
-      const pb = new PocketBase("http://127.0.0.1:8090");
+      const pb = new PocketBase(
+        "http://" +
+          (process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090") +
+          ""
+      );
       setClient(await pb.collection("clients").getOne(clientId));
       setModel(await pb.collection("models").getOne(modelId));
       setSupplys(

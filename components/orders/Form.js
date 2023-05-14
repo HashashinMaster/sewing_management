@@ -17,7 +17,11 @@ export default function Form() {
   });
   const clientFilter = (value, cb) => {
     fetch(
-      `http://127.0.0.1:8090/api/collections/clients/records?filter=(first_name~"${value}" || last_name~"${value}")`
+      `http://${
+        process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090"
+      }/api/collections/clients/records?filter=(first_name~"${value}" || last_name~"${value}")`
     )
       .then((res) => res.json())
       .then((data) =>
@@ -34,7 +38,11 @@ export default function Form() {
   };
   const modelFilter = (value, cb) => {
     fetch(
-      `http://127.0.0.1:8090/api/collections/models/records?filter=(model_name~"${value}")`
+      `http://${
+        process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090"
+      }/api/collections/models/records?filter=(model_name~"${value}")`
     )
       .then((res) => res.json())
       .then((data) =>
@@ -50,7 +58,11 @@ export default function Form() {
   };
   const stockFilter = (value, cb) => {
     fetch(
-      `http://127.0.0.1:8090/api/collections/stock/records?filter=(supply_name~"${value}" %26%26 quantity > 0)`
+      `http://${
+        process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090"
+      }/api/collections/stock/records?filter=(supply_name~"${value}" %26%26 quantity > 0)`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -134,7 +146,13 @@ export default function Form() {
     });
 
     if (!allGood) return;
-    const pb = new PocketBase("http://127.0.0.1:8090");
+    const pb = new PocketBase(
+      "http://" +
+        (process.env.NODE_ENV === "production"
+          ? "0.0.0.0:8080"
+          : "127.0.0.1:8090") +
+        ""
+    );
     try {
       await Promise.all(
         Object.keys(supp).map((key) =>

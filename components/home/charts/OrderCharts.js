@@ -114,7 +114,13 @@ export default function OrderCharts(params) {
 
   useEffect(() => {
     (async () => {
-      const pb = new PocketBase("http://127.0.0.1:8090");
+      const pb = new PocketBase(
+        "http://" +
+          (process.env.NODE_ENV === "production"
+            ? "0.0.0.0:8080"
+            : "127.0.0.1:8090") +
+          ""
+      );
       const orders = await pb.collection("orders").getFullList({
         batch: "-1",
         filter: `created >= "${new Date().getFullYear()}"`,

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clicked, toggleCheck } from "@/redux/form";
 
 export default function ModalFooter() {
