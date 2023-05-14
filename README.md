@@ -9,11 +9,16 @@ The app made using Next.js and pocketbase with other tools. see [package.json](p
 The [pb_migrations](pb_migrations) folder contain migrations scripts that will create all the collection necessary for the app to work.
 
 Run `./pocketbase migrate`.
+
 After that run `./pocketbase serve` to start pocketbase server.
+
+# Installing Node dependencies
+
+After starting pocketbase server run `npm i` to install all dependencies.
 
 # Runing the app localy in developement mode
 
-After starting pocketbase server run `npm run dev` in another terminal window to start next.js development server.
+Run `npm run dev` to start next.js development server.
 
 # Runing the app in production mode using docker
 
@@ -23,7 +28,7 @@ After starting pocketbase server run `npm run dev` in another terminal window to
 
 3. Run your container: `docker run -p 3000:3000 nextjs-docker`.
 
-You can view your images created with docker images
+You can view your images created with: `docker images`
 
 # App Demo
 
