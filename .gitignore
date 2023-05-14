@@ -31,6 +31,4 @@ yarn-error.log*
 .vercel
 # pocketbase
 api/pb_data
-docker-compose.yml
-Dockerfile
-api/Dockerfile
+

@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  sewing_api:
+    image: "sewing_api"
+    build: ./api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api/pb_migrations/ /pb/pb_migrations/
+  sewing_ui:
+    image: "sewing_ui"
+    build: .
+    ports:
+      - "3000:3000"
