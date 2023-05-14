@@ -6,7 +6,7 @@ The app made using Next.js and pocketbase with other tools. see [package.json](p
 
 # Runing Pocketbase db migrations
 
-The [api/pb_migrations](pb_migrations) folder contain migrations scripts that will create all the collection necessary for the app to work.
+The [pb_migrations](api/pb_migrations) folder contain migrations scripts that will create all the collection necessary for the app to work.
 
 Run `./pocketbase migrate`.
 
