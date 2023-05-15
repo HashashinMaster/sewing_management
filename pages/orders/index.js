@@ -37,7 +37,7 @@ export default function index({ totalItems }) {
             await new PocketBase(
               "http://" +
                 (process.env.NODE_ENV === "production"
-                  ? "sewing_api:8080"
+                  ? "127.0.0.1:8080"
                   : "127.0.0.1:8090") +
                 ""
             )
@@ -68,7 +68,7 @@ export default function index({ totalItems }) {
       const data = await new PocketBase(
         "http://" +
           (process.env.NODE_ENV === "production"
-            ? "sewing_api:8080"
+            ? "127.0.0.1:8080"
             : "127.0.0.1:8090") +
           ""
       )

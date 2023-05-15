@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["127.0.0.1"],
+    domains: ["127.0.0.1", "sewing_api"],
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if

@@ -117,7 +117,7 @@ export default function OrderCharts(params) {
       const pb = new PocketBase(
         "http://" +
           (process.env.NODE_ENV === "production"
-            ? "sewing_api:8080"
+            ? "127.0.0.1:8080"
             : "127.0.0.1:8090") +
           ""
       );
