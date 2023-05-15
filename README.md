@@ -23,11 +23,19 @@ go the [api directory](api) run `./pocketbase serve` to start pocketbase server.
 
 Run `npm run dev` to start next.js development server.
 
-# Runing the app in production mode using docker
+# Runing the app in production mode using Docker and Docker-compose
 
 1. First Make sure you have docker and docker composer installed in your machine (If you are on widnows docker compose in installed with desktop).
 
 2. Run `docker-composer up`. This command will create the images if they are not already created and start 2 containers, one for the pocketbase and the other for next.js.
+
+# Build next without Docker
+
+1. Run `npm run build`
+
+2. Run `npm start` to start the build
+
+Don't forget to run pocketbase as well.
 
 # App Demo
 
