@@ -22,7 +22,7 @@ export default function Client({
             avatar
               ? `http://${
                   process.env.NODE_ENV === "production"
-                    ? "127.0.0.1:8080"
+                    ? "sewing_api:8080"
                     : "127.0.0.1:8090"
                 }/api/files/clients/${id}/${avatar}`
               : "/noavatar.svg"
