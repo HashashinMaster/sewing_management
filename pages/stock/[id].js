@@ -74,8 +74,7 @@ export default function supply({
                   }/api/files/stock/${id}/${picture}`]: picture && true,
                 })}
                 className="img-fluid"
-                alt="Supply Picture"
-                unoptimized
+                alt="Supply Picture"              
                 width={200}
                 height={400}
                 style={{

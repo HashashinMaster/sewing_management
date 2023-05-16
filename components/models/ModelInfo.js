@@ -16,7 +16,6 @@ export default function ModelInfo({ info }) {
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
               width={100}
               height={100}
-              unoptimized
               className="img-fluid"
               alt="can't load image"
             />
