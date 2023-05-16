@@ -6,20 +6,20 @@ The app made using Next.js and pocketbase with other tools. see [package.json](p
 
 # Installing Node dependencies
 
-After starting pocketbase server run `npm i` to install all dependencies.
+Run `npm i` to install all dependencies.
 
 # Runing the app localy in developement mode
 
 ## Runing Pocketbase db migrations
 
-The [pb_migrations](api/pb_migrations) folder contain migrations scripts that will create all the collection necessary for the app to work.
-Run `./pocketbase migrate`.
+The [pb_migrations](api/pb_migrations) folder contain migrations scripts that will create all the collections necessary for the app to work.
+Go the [api directory](api) and run `./pocketbase migrate`.
 
 ## Starting Pocketbase server
 
-go the [api directory](api) run `./pocketbase serve` to start pocketbase server.
+Go the [api directory](api) and run `./pocketbase serve` to start pocketbase server.
 
-## Startinf Nextjs server
+## Starting Nextjs server
 
 Run `npm run dev` to start next.js development server.
 
