@@ -47,7 +47,11 @@ export default function Master({ data }) {
             height={200}
             src={
               client.avatar
-                ? `http://127.0.0.1:8090/api/files/clients/${client.id}/${client.avatar}`
+                ? `http://${
+                    process.env.NODE_ENV === "production"
+                      ? "sewing_api:8080"
+                      : "127.0.0.1:8090"
+                  }/api/files/clients/${client.id}/${client.avatar}`
                 : "/noavatar.svg"
             }
             alt={`${client_full_name}'s Picture`}
@@ -119,7 +123,11 @@ export default function Master({ data }) {
                           supply.supply_type === "Ressource" && !supply.picture,
                         "/stock/product.jpg":
                           supply.supply_type === "Product" && !supply.picture,
-                        [`http://127.0.0.1:8090/api/files/stock/${supply.id}/${supply.picture}`]:
+                        [`http://${
+                          process.env.NODE_ENV === "production"
+                            ? "sewing_api:8080"
+                            : "127.0.0.1:8090"
+                        }/api/files/stock/${supply.id}/${supply.picture}`]:
                           supply.picture && true,
                       })}
                       alt={`${supply.supply_name}'s Picture`}
