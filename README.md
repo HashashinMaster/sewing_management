@@ -29,14 +29,6 @@ Run `npm run dev` to start next.js development server.
 
 2. Run `docker-composer up`. This command will create the images if they are not already created and start 2 containers, one for the pocketbase and the other for next.js.
 
-# Build next without Docker
-
-1. Run `npm run build`
-
-2. Run `npm start` to start the build
-
-Don't forget to run pocketbase as well.
-
 # App Demo
 
 will uploaded soon
