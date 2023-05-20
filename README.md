@@ -2,7 +2,7 @@
 
 I made a sewing company management because i lied to my teacher that i did an internship with a sewing company.
 
-The app made using Next.js and pocketbase with other tools. see [package.json](package.json) file to see all the depenencys
+The app made using Next.js and pocketbase with other tools. see [package.json](package.json) file to see all the dependencies
 
 # Installing Node dependencies
 
