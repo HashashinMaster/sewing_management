@@ -31,5 +31,6 @@ Run `npm run dev` to start next.js development server.
 
 # App Demo
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/t-KmiOwCi2g/default.jpg)]([https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://www.youtube.com/watch?v=t-KmiOwCi2g&ab_channel=HashashinMaster))
+[![image thumb](https://img.youtube.com/vi/t-KmiOwCi2g/default.jpg)](https://www.youtube.com/watch?v=t-KmiOwCi2g&ab_channel=HashashinMaster)
+
 
